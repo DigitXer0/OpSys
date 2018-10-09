@@ -8,8 +8,9 @@ fileStart:
     call _clearBss
     add esp, 8
     extern _kmain
-    mov esp, stack
+    push ebx
     call _kmain
+    add esp, 4
     forever:
         jmp forever
     %define KERNEL_ADDRESS 0x100000
