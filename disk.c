@@ -54,22 +54,23 @@ void disk_read_sector(unsigned sector, void* datablock)
 		while(isBusy())
 			;
 
-		if(inb(0x1f7) & 0x8)
+		if(inw(0x1f7) & 0x8)
 			break;
-		else if(inb(0x1f7) & 0x0 || inb(0x1f7) & 0x20)
+		else if(inw(0x1f7) & 0x0 || inw(0x1f7) & 0x20)
 		{
-			kprintf("Error!\n\n Bit 0: %d \n\n Bit 5: %d\n\n", inb(0x1f7) & 0x0, inb(0x1f7) & 0x20);
+			kprintf("Error!\n\n Bit 0: %d \n\n Bit 5: %d\n\n", inw(0x1f7) & 0x0, inw(0x1f7) & 0x20);
 			break;
 		}
 	}
+
+
+		while(isBusy())
+			;
 
 	unsigned short* p = (unsigned short*)datablock;
 
 	for(int i = 0; i < 256; ++i)
 	{
-		while(isBusy())
-			;
-
 		unsigned short d = inw(0x1f0);
 		*p = d;
 		p++;
@@ -93,11 +94,11 @@ void disk_write_sector(unsigned sector, const void* datablock)
 		while(isBusy())
 			;
 
-		if(inb(0x1f7) & 0x8)
+		if(inw(0x1f7) & 0x8)
 			break;
-		else if(inb(0x1f7) & 0x0 || inb(0x1f7) & 0x20)
+		else if(inw(0x1f7) & 0x0 || inw(0x1f7) & 0x20)
 		{
-			kprintf("Error!\n\n Bit 0: %d \n\n Bit 5: %d\n\n", inb(0x1f7) & 0x0, inb(0x1f7) & 0x20);
+			kprintf("Error!\n\n Bit 0: %d \n\n Bit 5: %d\n\n", inw(0x1f7) & 0x0, inw(0x1f7) & 0x20);
 		}
 	}
 
@@ -112,4 +113,9 @@ void disk_write_sector(unsigned sector, const void* datablock)
 			p++;
 	}
 	outw(0x1f7, 0xe7);
+}
+
+void disk_read_block()
+{
+	
 }

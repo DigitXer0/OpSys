@@ -1,5 +1,8 @@
 #pragma once
 
+#include "bgd.h"
+#include "superblock.h"
+
 void outb(unsigned short port, unsigned char value);
 
 void outw(unsigned short port, unsigned short value);
