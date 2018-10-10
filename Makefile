@@ -44,7 +44,11 @@ all:
 	$(CC) -c disk.c	
 	$(CC) -c draw.c
 	$(LD) -Map kernelmap.txt -T linkerscript.txt -o kernel.tmp \
+<<<<<<< HEAD
 		kernelasm.o kernelc.o console.o testsuite.o kprintf.o disk.o \
+=======
+		kernelasm.o kernelc.o console.o kprintf.o disk.o \
+>>>>>>> master
 		draw.o
 	$(OBJCOPY) -Obinary kernel.tmp kernel.bin
 	$(TRUNCATE) -s 400000000 hd.img
