@@ -23,7 +23,7 @@ TRUNCATE?=truncate
 CFLAGS:=$(OPTIMIZE) \
 	-masm=intel \
 	-m32 \
-	-Wall -Werror \
+	-Wall -Werror\
 	-fno-builtin \
 	-fno-pie \
 	-mgeneral-regs-only \
@@ -38,8 +38,14 @@ all:
 	$(NASM) -f bin bootblock.s -o bootblock.bin
 	$(NASM) kernelasm.s -o kernelasm.o
 	$(CC) -c kernelc.c
+	$(CC) -c console.c
+	$(CC) -c testsuite.c
+	$(CC) -c kprintf.c
+	$(CC) -c disk.c	
+	$(CC) -c draw.c
 	$(LD) -Map kernelmap.txt -T linkerscript.txt -o kernel.tmp \
-		kernelasm.o kernelc.o 
+		kernelasm.o kernelc.o console.o kprintf.o disk.o \
+		draw.o
 	$(OBJCOPY) -Obinary kernel.tmp kernel.bin
 	$(TRUNCATE) -s 400000000 hd.img
 	$(MKE2FS) -b 4096 -F -I 128 -q -t ext2 -r 0 -L moocow -g 32768 hd.img
